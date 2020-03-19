@@ -19,21 +19,20 @@ class DoubannvSpider(scrapy.Spider):
 
     def parse(self, response):
         # '//img[@class="ui avatar image"]/@src'
-        title_list = response.xpath('//img[@class="ui avatar image"]/@alt').getall()
+        title_list = response.xpath('//img[@class="rounded ui  left image "]/@alt').getall()
         img_list = response.xpath('//img[@class="rounded ui  left image "]/@src').getall()
         img_index_list = response.xpath('//a[@class="imga"]/@href').getall()
 
         if len(title_list) == len(img_index_list) == len(img_list):
-            for i in range(len(title_list)): #0..<len(title_list):
+            for i in range(len(title_list)):
                 item_title = title_list[i]
                 item_img = img_list[i]
                 item_index = img_index_list[i]
                 item = TutorialItem(title=item_title,img_url=item_img,index_url=item_index)
-                print("数据正确",item)
-        # print("数据解析",response.xpath('//img[@class="ui avatar image"]/@alt').getall())
-        # print("数据解析",response.xpath('//a[@class="imga"]/@href').getall())
+                print("异步返回数据",item)
+                yield item
         
         pass
 
-    def log(self, response):
-        pass
+    # def log(self, response):
+    #     pass
